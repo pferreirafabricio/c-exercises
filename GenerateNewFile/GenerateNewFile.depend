@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1602343622 source:c:\users\fabri\documents\programação ii\generatenewfile\main.c
+	<stdio.h>
+	<stdlib.h>
+

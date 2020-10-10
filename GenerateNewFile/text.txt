@@ -1,0 +1,4 @@
+This a example test
+that has a few lines
+this is the third line
+and this the final of the file
