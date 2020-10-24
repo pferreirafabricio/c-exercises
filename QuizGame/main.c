@@ -14,12 +14,9 @@
 /**
  * QUESTION CONFIGURATIONS
  */
-#define CONF_SIZE_QUESTION_STRUCT 321
 #define CONF_QUESTION 100
-#define CONF_QUESTION_EXPLANATION 100
-#define CONF_QUESTION_ALTERNATIVE 30
 #define CONF_SCORE_FILE_NAME "score.bin"
-
+#define CONF_QUESTION_FOLDER "questions"
 
 /**
  * STRUCTS
@@ -32,7 +29,7 @@ typedef struct
     char alternativeC[CONF_QUESTION];
     char alternativeD[CONF_QUESTION];
     char correctAnswer;
-    char explanation[CONF_QUESTION_EXPLANATION];
+    char explanation[CONF_QUESTION];
 } question;
 
 typedef struct
@@ -53,6 +50,7 @@ int askQuestion(int questionIndex, question *questionToShow);
 void getScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS]);
 void saveScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS], GameScore *gameToSave);
 int calculateTotalScore(GameScore gameScoreToCalculate);
+void finishGame(GameScore *gameScore);
 
 int main()
 {
@@ -91,17 +89,17 @@ void showMenuInformation()
             resetScore();
             break;
         case 'q': case 'Q':
-            printf("\nSaindo...\n\n");
-            exit(0);
+            exitGame();
             break;
         default:
+            showMenuInformation();
             break;
     }
 }
 
 void startGame()
 {
-    readQuestions(getTotalNumberOfQuestions("questions"));
+    readQuestions(getTotalNumberOfQuestions(CONF_QUESTION_FOLDER));
     exit(0);
 }
 
@@ -185,12 +183,15 @@ void readQuestions(int totalNumberOfQuestions)
             printf("\n\nOcorreu um erro ao fechar o arquivo %s!", questionFileName);
         }
 
-        printf("\n\nPara ir para a próxima pergunta pressione qualquer tecla\n");
-        fflush(stdin);
-        getchar();
+        if (questionNumer != totalNumberOfQuestions)
+        {
+            printf("\n\nPara ir para a próxima pergunta pressione ENTER\n");
+            fflush(stdin);
+            getchar();
+        }
     }
 
-    saveScore(CONF_SCORE_FILE_NAME, &gameScore);
+    finishGame(&gameScore);
 }
 
 int askQuestion(int questionIndex, question *questionToShow)
@@ -221,6 +222,12 @@ int askQuestion(int questionIndex, question *questionToShow)
 /**
  * HELPERS
  */
+
+void exitGame()
+{
+    printf("\nAdeus :) \n\n");
+    exit(0);
+}
 
 int getTotalNumberOfQuestions(char directoryName[CONF_FILE_NAME_CHARACTERS])
 {
@@ -305,6 +312,12 @@ void getScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS])
 
     printf("\n\nSeu score atual é de:\n%d respostas certas\n%d respostas incorretas\nTOTAL: %d pontos",
            currentGameScore.correctAnswers, currentGameScore.incorrectAnswers, currentGameScore.finalScore);
+
+    if (currentGameScore.finalScore >= 90 )
+    {
+        printf(" (você é fera!)");
+    }
+
     printf("\n_________");
 
     if(fclose(scoreFile) != 0)
@@ -323,10 +336,27 @@ void resetScore()
 
     if (response == 'S' || response == 's')
     {
-        if (remove(CONF_SCORE_FILE_NAME) != 0)
-        {
-            return;
-        }
+        remove(CONF_SCORE_FILE_NAME);
+    }
+
+    showMenuInformation();
+}
+
+void finishGame(GameScore *gameScore)
+{
+    char response;
+
+    system("cls");
+    saveScore(CONF_SCORE_FILE_NAME, gameScore);
+    printf("\nParabéns! Você finalizou o jogo!");
+    printf("\n\nQuer jogar novamente? (s/n)");
+    fflush(stdin);
+    scanf("%c", &response);
+
+    if (response == 'S' || response == 's')
+    {
+        startGame();
+        return;
     }
 
     showMenuInformation();
