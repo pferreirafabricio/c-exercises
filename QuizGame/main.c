@@ -5,17 +5,25 @@
 #include <string.h>
 #include <ctype.h>
 
+/**
+ * GENERAL CONFIGURATIONS
+ */
 #define CONF_DEFAULT_CODEPAGE 1252
 #define CONF_FILE_NAME_CHARACTERS 20
 
 /**
- * QUESTION
+ * QUESTION CONFIGURATIONS
  */
 #define CONF_SIZE_QUESTION_STRUCT 321
 #define CONF_QUESTION 100
 #define CONF_QUESTION_EXPLANATION 100
 #define CONF_QUESTION_ALTERNATIVE 30
+#define CONF_SCORE_FILE_NAME "score.bin"
 
+
+/**
+ * STRUCTS
+ */
 typedef struct
 {
     char question[CONF_QUESTION];
@@ -32,14 +40,19 @@ typedef struct
     int correctAnswers;
     int incorrectAnswers;
     int finalScore;
-} game;
+} GameScore;
 
-/** Initialize functions */
+/**
+ * Initialize functions
+ */
 void showMenuInformation();
 void startGame();
 void readQuestions(int totalNumberOfQuestions);
 int getTotalNumberOfQuestions(char directoryName[CONF_FILE_NAME_CHARACTERS]);
 int askQuestion(int questionIndex, question *questionToShow);
+void getScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS]);
+void saveScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS], GameScore *gameToSave);
+int calculateTotalScore(GameScore gameScoreToCalculate);
 
 int main()
 {
@@ -56,12 +69,12 @@ void showMenuInformation()
     char choosedOption;
 
     printf("\nQUIZ GAME");
-    printf("\n_________\n");
-    printf("\nSeja bem vindo!");
-    printf("\n_________\n");
-    printf("\n_________\n\n");
-    printf("> Pressione S para começar o jogo\n");
-    printf("> Pressione Q para sair do jogo\n\n");
+    printf("\n_________");
+    printf("\n\nSeja bem vindo!");
+    printf("\n_________");
+    getScore(CONF_SCORE_FILE_NAME);
+    printf("\n\n> Pressione S para começar o jogo");
+    printf("\n> Pressione Q para sair do jogo");
 
     printf("\n\nDigite sua opção: ");
     scanf("%c", &choosedOption);
@@ -82,15 +95,14 @@ void showMenuInformation()
 
 void startGame()
 {
-    system("cls");
-    printf("==== Começando o jogo ==== \n\n");
-
     readQuestions(getTotalNumberOfQuestions("questions"));
     exit(0);
 }
 
 void readQuestions(int totalNumberOfQuestions)
 {
+    GameScore gameScore;
+
     for (int questionNumer = 1; questionNumer <= totalNumberOfQuestions; questionNumer++)
     {
         char questionFileName[CONF_FILE_NAME_CHARACTERS];
@@ -154,12 +166,13 @@ void readQuestions(int totalNumberOfQuestions)
         if (askQuestion(questionNumer, &mountQuestion) == 1)
         {
             printf("\nAcertou!!!");
+            gameScore.correctAnswers++;
         }
         else
         {
             printf("\nResposta errada!\n%s", mountQuestion.explanation);
+            gameScore.incorrectAnswers++;
         }
-
 
         if(fclose(fileQuestion) != 0)
         {
@@ -170,6 +183,8 @@ void readQuestions(int totalNumberOfQuestions)
         fflush(stdin);
         getchar();
     }
+
+    saveScore(CONF_SCORE_FILE_NAME, &gameScore);
 }
 
 int askQuestion(int questionIndex, question *questionToShow)
@@ -187,7 +202,8 @@ int askQuestion(int questionIndex, question *questionToShow)
     fflush(stdin);
     scanf("%c", &userResponse);
 
-    if (userResponse == questionToShow->correctAnswer)
+    if (userResponse == toupper(questionToShow->correctAnswer)
+        || userResponse == tolower(questionToShow->correctAnswer))
     {
         return 1;
     }
@@ -199,6 +215,7 @@ int askQuestion(int questionIndex, question *questionToShow)
 /**
  * HELPERS
  */
+
 int getTotalNumberOfQuestions(char directoryName[CONF_FILE_NAME_CHARACTERS])
 {
     int totalFiles = 0;
@@ -209,7 +226,7 @@ int getTotalNumberOfQuestions(char directoryName[CONF_FILE_NAME_CHARACTERS])
 
     if (directory == NULL)
     {
-        printf("\n\nAlgo deu errado ao abrir o diretório %s!", directoryName);
+        printf("\n\nAlgo deu errado ao abrir o diret?rio %s!", directoryName);
         return 0;
     }
 
@@ -230,3 +247,64 @@ void sanitizeString(char string[CONF_QUESTION])
     memset(string, '\0', CONF_QUESTION);
 }
 
+void saveScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS], GameScore *gameToSave)
+{
+    FILE *scoreFile;
+    scoreFile = fopen(scoreFileName, "wb+");
+
+    if (scoreFile == NULL)
+    {
+        printf("\n\nOcorreu um erro ao abrir o arquivo %s, tente novamente mais tarde!\n\n", scoreFileName);
+        return;
+    }
+
+    gameToSave->finalScore = calculateTotalScore(*gameToSave);
+    fwrite(gameToSave, sizeof(GameScore), 1, scoreFile);
+
+    if(ferror(scoreFile))
+    {
+        printf("\n\nOcorreu um erro ao salvar o seu score, tente novamente mais tarde!\n\n");
+        return;
+    }
+
+    printf("\n\nScore salvo com sucesso!");
+
+    if(fclose(scoreFile) != 0)
+    {
+        printf("\n\nOcorreu um erro ao fechar o arquivo %s!", scoreFileName);
+    }
+}
+
+int calculateTotalScore(GameScore gameScoreToCalculate)
+{
+    return gameScoreToCalculate.correctAnswers * 10;
+}
+
+void getScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS])
+{
+    FILE *scoreFile;
+    scoreFile = fopen(scoreFileName, "rb");
+    GameScore currentGameScore;
+
+    if (scoreFile == NULL)
+    {
+        return;
+    }
+
+    fread(&currentGameScore, sizeof(GameScore), 1, scoreFile);
+
+    if(ferror(scoreFile))
+    {
+        printf("\n\nOcorreu um erro ao salvar o seu score, tente novamente mais tarde!\n\n");
+        return;
+    }
+
+    printf("\n\nSeu score atual é de:\n%d respostas certas\n%d respostas incorretas\nTOTAL: %d pontos",
+           currentGameScore.correctAnswers, currentGameScore.incorrectAnswers, currentGameScore.finalScore);
+    printf("\n_________");
+
+    if(fclose(scoreFile) != 0)
+    {
+        printf("\n\nOcorreu um erro ao fechar o arquivo %s!", scoreFileName);
+    }
+}
