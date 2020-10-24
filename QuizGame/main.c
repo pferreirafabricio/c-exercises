@@ -9,8 +9,8 @@
 #define CONF_FILE_NAME_CHARACTERS 20
 
 /**
-    QUESTION
-*/
+ * QUESTION
+ */
 #define CONF_SIZE_QUESTION_STRUCT 321
 #define CONF_QUESTION 100
 #define CONF_QUESTION_EXPLANATION 100
@@ -37,14 +37,14 @@ typedef struct
 /** Initialize functions */
 void showMenuInformation();
 void startGame();
-int getTotalNumberOfQuestions(char directoryName[CONF_FILE_NAME_CHARACTERS]);
 void readQuestions(int totalNumberOfQuestions);
-int askQuestion(question questionToShow);
+int getTotalNumberOfQuestions(char directoryName[CONF_FILE_NAME_CHARACTERS]);
+int askQuestion(int questionIndex, question *questionToShow);
 
 int main()
 {
-    // SetConsoleOutputCP(CONF_DEFAULT_CODEPAGE);
-    // SetConsoleCP(CONF_DEFAULT_CODEPAGE);
+    SetConsoleOutputCP(CONF_DEFAULT_CODEPAGE);
+    SetConsoleCP(CONF_DEFAULT_CODEPAGE);
     setlocale(LC_ALL, "portuguese");
     showMenuInformation();
 
@@ -123,23 +123,18 @@ void readQuestions(int totalNumberOfQuestions)
 
         while(!feof(fileQuestion))
         {
-
             /* for(int i = 0; i < CONF_QUESTION; i++)
             {
                 mountQuestion.question[i] = '\0';
                 mountQuestion.explanation[i] = '\0';
-            }
-
-            for(int i = 0; i < CONF_QUESTION_ALTERNATIVE; i++)
-            {
-                mountQuestion.alternativeA[CONF_QUESTION_ALTERNATIVE] = '\0';
-                mountQuestion.alternativeB[CONF_QUESTION_ALTERNATIVE] = '\0';
-                mountQuestion.alternativeC[CONF_QUESTION_ALTERNATIVE] = '\0';
-                mountQuestion.alternativeD[CONF_QUESTION_ALTERNATIVE] = '\0';
+                mountQuestion.alternativeA[i] = '\0';
+                mountQuestion.alternativeB[i] = '\0';
+                mountQuestion.alternativeC[i] = '\0';
+                mountQuestion.alternativeD[i] = '\0';
             } */
 
             fgets(chainOfCharacters, CONF_QUESTION, fileQuestion);
-            ++currentLine;
+            currentLine++;
             printf("Na linha %d: %s", currentLine, chainOfCharacters);
 
             if (currentLine == 1)
@@ -169,7 +164,7 @@ void readQuestions(int totalNumberOfQuestions)
 
             if (currentLine == 6)
             {
-                mountQuestion.correctAnswer = chainOfCharacters;
+                mountQuestion.correctAnswer = fgetc(fileQuestion);
             }
 
             if (currentLine == 7)
@@ -178,7 +173,7 @@ void readQuestions(int totalNumberOfQuestions)
             }
         }
 
-        if (askQuestion(mountQuestion) == 1)
+        if (askQuestion(questionNumer, &mountQuestion) == 1)
         {
             printf("\n\nAcertou!!!");
         }
@@ -193,22 +188,23 @@ void readQuestions(int totalNumberOfQuestions)
     }
 }
 
-int askQuestion(question questionToShow)
+int askQuestion(int questionIndex, question *questionToShow)
 {
     char userResponse;
 
-    printf("%s \n", questionToShow.question);
-    printf("A) %s \n", questionToShow.alternativeA);
-    printf("B) %s \n", questionToShow.alternativeB);
-    printf("C) %s \n", questionToShow.alternativeC);
-    printf("D) %s \n", questionToShow.alternativeD);
+    printf("\n\nQUESTÃO %d: %s \n", questionIndex, questionToShow->question);
+    printf("A) %s \n", questionToShow->alternativeA);
+    printf("B) %s \n", questionToShow->alternativeB);
+    printf("C) %s \n", questionToShow->alternativeC);
+    printf("D) %s \n", questionToShow->alternativeD);
 
     printf("\n\nDigite a sua resposta: ");
+    fflush(stdin);
     scanf("%c", &userResponse);
 
-    printf("Letra correta é: %c", questionToShow.correctAnswer);
+    printf("Resposta correta é: %c", questionToShow->correctAnswer);
 
-    if (userResponse == questionToShow.correctAnswer)
+    if (userResponse == questionToShow->correctAnswer)
     {
         return 1;
     }
