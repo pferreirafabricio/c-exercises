@@ -68,21 +68,27 @@ void showMenuInformation()
 {
     char choosedOption;
 
+    system("cls");
     printf("\nQUIZ GAME");
     printf("\n_________");
     printf("\n\nSeja bem vindo!");
     printf("\n_________");
     getScore(CONF_SCORE_FILE_NAME);
     printf("\n\n> Pressione S para começar o jogo");
+    printf("\n> Pressione R para resetar o seu score");
     printf("\n> Pressione Q para sair do jogo");
 
     printf("\n\nDigite sua opção: ");
+    fflush(stdin);
     scanf("%c", &choosedOption);
 
     switch(choosedOption)
     {
-        case 's':
+        case 's': case 'S':
             startGame();
+            break;
+        case 'r': case 'R':
+            resetScore();
             break;
         case 'q': case 'Q':
             printf("\nSaindo...\n\n");
@@ -267,8 +273,6 @@ void saveScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS], GameScore *gameToS
         return;
     }
 
-    printf("\n\nScore salvo com sucesso!");
-
     if(fclose(scoreFile) != 0)
     {
         printf("\n\nOcorreu um erro ao fechar o arquivo %s!", scoreFileName);
@@ -307,4 +311,23 @@ void getScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS])
     {
         printf("\n\nOcorreu um erro ao fechar o arquivo %s!", scoreFileName);
     }
+}
+
+void resetScore()
+{
+    char response;
+
+    printf("Você quer mesmo resetar o seu score? (s/n)");
+    fflush(stdin);
+    scanf("%c", &response);
+
+    if (response == 'S' || response == 's')
+    {
+        if (remove(CONF_SCORE_FILE_NAME) != 0)
+        {
+            return;
+        }
+    }
+
+    showMenuInformation();
 }
