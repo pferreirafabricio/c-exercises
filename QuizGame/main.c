@@ -101,7 +101,7 @@ void readQuestions(int totalNumberOfQuestions)
 
         if (fileQuestion == NULL)
         {
-            printf("\n\nOcorreu um erro ao abrir a pergunta %s!", questionFileName);
+            printf("\n\nOcorreu um erro ao abrir a pergunta %s!\n\n", questionFileName);
             return;
         }
 
@@ -153,11 +153,11 @@ void readQuestions(int totalNumberOfQuestions)
 
         if (askQuestion(questionNumer, &mountQuestion) == 1)
         {
-            printf("\n\nAcertou!!!");
+            printf("\nAcertou!!!");
         }
         else
         {
-            printf("\n\nResposta errada!\n%s", mountQuestion.explanation);
+            printf("\nResposta errada!\n%s", mountQuestion.explanation);
         }
 
 
@@ -165,6 +165,10 @@ void readQuestions(int totalNumberOfQuestions)
         {
             printf("\n\nOcorreu um erro ao fechar o arquivo %s!", questionFileName);
         }
+
+        printf("\n\nPara ir para a próxima pergunta pressione qualquer tecla\n");
+        fflush(stdin);
+        getchar();
     }
 }
 
@@ -172,17 +176,16 @@ int askQuestion(int questionIndex, question *questionToShow)
 {
     char userResponse;
 
+    system("cls");
     printf("\n\nQUESTÃO %d: %s \n", questionIndex, questionToShow->question);
     printf("A) %s \n", questionToShow->alternativeA);
     printf("B) %s \n", questionToShow->alternativeB);
     printf("C) %s \n", questionToShow->alternativeC);
     printf("D) %s \n", questionToShow->alternativeD);
 
-    printf("\n\nDigite a sua resposta: ");
+    printf("\nDigite a sua resposta: ");
     fflush(stdin);
     scanf("%c", &userResponse);
-
-    printf("Resposta correta é: %c", questionToShow->correctAnswer);
 
     if (userResponse == questionToShow->correctAnswer)
     {
