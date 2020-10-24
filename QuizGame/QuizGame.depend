@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1603554794 source:c:\users\fabri\desktop\development - windows\github - public\c-exercises\quizgame\main.c
+1603557193 source:c:\users\fabri\desktop\development - windows\github - public\c-exercises\quizgame\main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>

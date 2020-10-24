@@ -91,22 +91,10 @@ void startGame()
 
 void readQuestions(int totalNumberOfQuestions)
 {
-    for (int questionNumer = 1; questionNumer <= 1; questionNumer++)
+    for (int questionNumer = 1; questionNumer <= totalNumberOfQuestions; questionNumer++)
     {
-        /*
-        ===== GERAR O NOME DO ARQUIVO ====
         char questionFileName[CONF_FILE_NAME_CHARACTERS];
-        char buffer[CONF_FILE_NAME_CHARACTERS];
-        snprintf(buffer, CONF_FILE_NAME_CHARACTERS, "%d", questionNumer);
-        strcat(questionFileName, buffer); */
-
-        /*
-        strcat(questionFileName, "question");
-        strcat(questionFileName, sprintf(questionFileName, "%d", questionNumer));
-        strcat(questionFileName, ".txt");
-        */
-
-        char questionFileName[CONF_FILE_NAME_CHARACTERS] = "question1.txt";
+        snprintf(questionFileName, CONF_FILE_NAME_CHARACTERS, "question%d.txt", questionNumer);
 
         FILE *fileQuestion;
         fileQuestion = fopen(questionFileName, "r");
@@ -123,19 +111,8 @@ void readQuestions(int totalNumberOfQuestions)
 
         while(!feof(fileQuestion))
         {
-            /* for(int i = 0; i < CONF_QUESTION; i++)
-            {
-                mountQuestion.question[i] = '\0';
-                mountQuestion.explanation[i] = '\0';
-                mountQuestion.alternativeA[i] = '\0';
-                mountQuestion.alternativeB[i] = '\0';
-                mountQuestion.alternativeC[i] = '\0';
-                mountQuestion.alternativeD[i] = '\0';
-            } */
-
             fgets(chainOfCharacters, CONF_QUESTION, fileQuestion);
             currentLine++;
-            printf("Na linha %d: %s", currentLine, chainOfCharacters);
 
             if (currentLine == 1)
             {
@@ -160,12 +137,13 @@ void readQuestions(int totalNumberOfQuestions)
             if (currentLine == 5)
             {
                 strcpy(mountQuestion.alternativeD, chainOfCharacters);
-            }
-
-            if (currentLine == 6)
-            {
                 mountQuestion.correctAnswer = fgetc(fileQuestion);
             }
+
+            /* if (currentLine == 6)
+            {
+                mountQuestion.correctAnswer = fgetc(fileQuestion);
+            } */
 
             if (currentLine == 7)
             {
@@ -177,14 +155,16 @@ void readQuestions(int totalNumberOfQuestions)
         {
             printf("\n\nAcertou!!!");
         }
+        else
+        {
+            printf("\n\nResposta errada!\n%s", mountQuestion.explanation);
+        }
 
 
         if(fclose(fileQuestion) != 0)
         {
             printf("\n\nOcorreu um erro ao fechar o arquivo %s!", questionFileName);
         }
-
-        printf("\n\nTodas as funções foram concluídas!");
     }
 }
 
