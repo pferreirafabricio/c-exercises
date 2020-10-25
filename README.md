@@ -1,6 +1,6 @@
 <h5 align="center">
   <img src="./docs/jogos-digitais.png" width="200px" /><br><br>
-  <b>Exercises in C programming Language!</b> :gun:
+  <b>Exercises in C programming Language</b> :gun:
 </h5>
 <p align="center">
   <img alt="License" src="https://img.shields.io/badge/FATEC-AM-orange">
@@ -10,18 +10,18 @@
 ## Exercises and Projects
 
 - [Exercise - Decoding a text](https://github.com/pferreirafabricio/c-exercises#deconding-text)
-- [Exercise 2 - Generating a new file](https://github.com/pferreirafabricio/c-exercises#generating-a-new-file)
-- [Project 1 - A simple quiz game](https://github.com/pferreirafabricio/c-exercises#a-simple-quiz-game)
+- [Exercise - Generating a new file](https://github.com/pferreirafabricio/c-exercises#generating-a-new-file)
+- [Project - A simple quiz game](https://github.com/pferreirafabricio/c-exercises#a-simple-quiz-game)
 
 ### :abacus: Deconding Text
 
-It is a simple program that read a file and replace the specified characters in the file (in this case vogals) by anothers characters.
+It is a simple program that read a file and replace the characters specified in the file (in this case vowels) by others characters.
 <img width="1000px" src="./docs/decode-text.png" />
 <br/>
 
 ### :scroll: Generating a new file
 
-It is a simple program that read a file and, when reading the line 3, prompt a input for the user type a phrase that will be inserted bellow the line 3 in a new file.
+It is a simple program that read a file and, when reading the line 3, prompt an input for the user type a phrase that will be inserted below the line 3 in a new file.
 <img width="1000px" src="./docs/generate-new-file.png" />
 <br/>
 
