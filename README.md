@@ -1,5 +1,5 @@
 <h5 align="center">
-  <img src="http://www.fatec.edu.br/wp-content/uploads/sites/2/2019/08/Cores@72x-300x71.png" width="250px" /><br><br>
+  <img src="./docs/jogos-digitais.png" width="200px" /><br><br>
   <b>Exercises in C programming Language!</b> :gun:
 </h5>
 <p align="center">
@@ -15,16 +15,12 @@
 
 ### Deconding Text
 
-[<img align="left" width="200px" src="https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png" />](https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png)
+[<img width="1000px" src="./docs/decode-text.png" />](https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png)
 It is a simple program that read a file and replace the specified characters in the file (in this case vogals) by anothers characters.
-<br>
-<br>
-<br>
-<br>
 
 ### Generating a new file
 
-[<img align="left" width="200px" src="https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png" />](https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png)
+[<img align="center" width="200px" src="https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png" />](https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png)
 It is a simple program that read a file and, when reading the line 3, prompt a input for the user type a phrase that will be inserted bellow the line 3 in a new file.
 <br>
 <br>
@@ -34,7 +30,7 @@ It is a simple program that read a file and, when reading the line 3, prompt a i
 ### A simple quiz game
 
 [<img align="left" width="200px" src="https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png" />](https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png)
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is.
+A simple game to practice about modularization, string and file manipulation, ... In this game the user have to respond 10 questions about general subjects. When finished the game the score is saved and displayed in the initial screen. 
 <br>
 <br>
 <br>
