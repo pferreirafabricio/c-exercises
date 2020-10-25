@@ -15,26 +15,19 @@
 
 ### Deconding Text
 
-[<img width="1000px" src="./docs/decode-text.png" />](https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png)
 It is a simple program that read a file and replace the specified characters in the file (in this case vogals) by anothers characters.
+<img width="1000px" src="./docs/decode-text.png" />
 
 ### Generating a new file
 
-[<img align="center" width="200px" src="https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png" />](https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png)
 It is a simple program that read a file and, when reading the line 3, prompt a input for the user type a phrase that will be inserted bellow the line 3 in a new file.
-<br>
-<br>
-<br>
-<br>
+<img width="1000px" src="./docs/generate-new-file.png" />
 
 ### A simple quiz game
 
-[<img align="left" width="200px" src="https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png" />](https://www.webdevdrops.com/wp-content/uploads/2020/04/git-1.png)
-A simple game to practice about modularization, string and file manipulation, ... In this game the user have to respond 10 questions about general subjects. When finished the game the score is saved and displayed in the initial screen. 
-<br>
-<br>
-<br>
-<br>
+A simple game to practice about modularization, string and file manipulation, ... In this game the user have to respond 10 questions about general subjects. When finished the game the score is saved and displayed in the initial screen.
+<img width="400px" src="./docs/game-quiz.png" />
+<img width="400px" src="./docs/game-quiz2.png" />
 
 ## :bricks: This project was built with: 
 - [C](https://www.php.net)
