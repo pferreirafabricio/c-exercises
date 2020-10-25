@@ -9,28 +9,31 @@
 
 ## Exercises and Projects
 
-- [Exercise - Decoding a text]()
-- [Exercise 2 - Generating a new file]()
-- [Project 1 - A simple quiz game]()
+- [Exercise - Decoding a text](https://github.com/pferreirafabricio/c-exercises#deconding-text)
+- [Exercise 2 - Generating a new file](https://github.com/pferreirafabricio/c-exercises#generating-a-new-file)
+- [Project 1 - A simple quiz game](https://github.com/pferreirafabricio/c-exercises#a-simple-quiz-game)
 
-### Deconding Text
+### :abacus: Deconding Text
 
 It is a simple program that read a file and replace the specified characters in the file (in this case vogals) by anothers characters.
 <img width="1000px" src="./docs/decode-text.png" />
+<br/>
 
-### Generating a new file
+### :scroll: Generating a new file
 
 It is a simple program that read a file and, when reading the line 3, prompt a input for the user type a phrase that will be inserted bellow the line 3 in a new file.
 <img width="1000px" src="./docs/generate-new-file.png" />
+<br/>
 
-### A simple quiz game
+### :joystick: A simple quiz game
 
 A simple game to practice about modularization, string and file manipulation, ... In this game the user have to respond 10 questions about general subjects. When finished the game the score is saved and displayed in the initial screen.
 <img width="400px" src="./docs/game-quiz.png" />
 <img width="400px" src="./docs/game-quiz2.png" />
+<br/>
 
 ## :bricks: This project was built with: 
-- [C](https://www.php.net)
+- [C](https://www.cprogramming.com/)
 - [Code::Blocks](http://www.codeblocks.org/)
 
 ## :recycle: Contribute
