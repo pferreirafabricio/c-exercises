@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1603584254 source:c:\users\fabri\desktop\development - windows\github - public\c-exercises\quizgame\main.c
+1603585270 source:c:\users\fabri\desktop\development - windows\github - public\c-exercises\quizgame\main.c
 	<stdio.h>
 	<stdlib.h>
 	<locale.h>
 	<dirent.h>
 	<string.h>
 	<ctype.h>
+	<stdbool.h>
 

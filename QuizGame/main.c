@@ -84,10 +84,9 @@ void showMenuInformation()
     printf(YEL "\nPEPPY - O QUIZ GAME" RESET);
     printf("\n_________");
     printf("\n\nSeja bem vindo!");
-    printf("\n_________");
+    printf("\n_________\n");
     getScore(CONF_SCORE_FILE_NAME);
-    printf("\n\n" CYN " > " RESET "Digite S para começar o jogo");
-    printf("\n" CYN " > " RESET "Digite R para resetar o seu score");
+    printf("\n" CYN " > " RESET "Digite S para começar o jogo");
     printf("\n" CYN " > " RESET "Digite Q para sair do jogo");
 
     printf("\n\nOpção desejada: ");
@@ -349,7 +348,8 @@ void getScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS])
         printf(MAG " (você é fera!)" RESET);
     }
 
-    printf("\n_________");
+    printf("\n_________\n");
+    printf("\n" CYN " > " RESET "Digite R para resetar o seu score");
 
     if(fclose(scoreFile) != 0)
     {
