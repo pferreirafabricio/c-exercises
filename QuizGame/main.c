@@ -4,6 +4,7 @@
 #include <dirent.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdbool.h>
 
 /**
  * GENERAL CONFIGURATIONS
@@ -19,6 +20,18 @@
 #define CONF_QUESTION_FOLDER "questions"
 
 /**
+ * COLORS CONFIGURATIONS
+ */
+#define RED   "\x1B[31m"
+#define GRN   "\x1B[32m"
+#define YEL   "\x1B[33m"
+#define BLU   "\x1B[34m"
+#define MAG   "\x1B[35m"
+#define CYN   "\x1B[36m"
+#define WHT   "\x1B[37m"
+#define RESET "\x1B[0m"
+
+/**
  * STRUCTS
  */
 typedef struct
@@ -30,7 +43,7 @@ typedef struct
     char alternativeD[CONF_QUESTION];
     char correctAnswer;
     char explanation[CONF_QUESTION];
-} question;
+} Question;
 
 typedef struct
 {
@@ -46,11 +59,12 @@ void showMenuInformation();
 void startGame();
 void readQuestions(int totalNumberOfQuestions);
 int getTotalNumberOfQuestions(char directoryName[CONF_FILE_NAME_CHARACTERS]);
-int askQuestion(int questionIndex, question *questionToShow);
+int askQuestion(int questionIndex, Question *questionToShow);
 void getScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS]);
 void saveScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS], GameScore *gameToSave);
 int calculateTotalScore(GameScore gameScoreToCalculate);
 void finishGame(GameScore *gameScore);
+bool nextQuestion();
 
 int main()
 {
@@ -67,16 +81,16 @@ void showMenuInformation()
     char choosedOption;
 
     system("cls");
-    printf("\nQUIZ GAME");
+    printf(YEL "\nPEPPY - O QUIZ GAME" RESET);
     printf("\n_________");
     printf("\n\nSeja bem vindo!");
     printf("\n_________");
     getScore(CONF_SCORE_FILE_NAME);
-    printf("\n\n> Pressione S para começar o jogo");
-    printf("\n> Pressione R para resetar o seu score");
-    printf("\n> Pressione Q para sair do jogo");
+    printf("\n\n" CYN " > " RESET "Digite S para começar o jogo");
+    printf("\n" CYN " > " RESET "Digite R para resetar o seu score");
+    printf("\n" CYN " > " RESET "Digite Q para sair do jogo");
 
-    printf("\n\nDigite sua opção: ");
+    printf("\n\nOpção desejada: ");
     fflush(stdin);
     scanf("%c", &choosedOption);
 
@@ -117,11 +131,11 @@ void readQuestions(int totalNumberOfQuestions)
 
         if (fileQuestion == NULL)
         {
-            printf("\n\nOcorreu um erro ao abrir a pergunta %s!\n\n", questionFileName);
+            printf(RED "\n\nOcorreu um erro ao abrir a pergunta %s!\n\n" RESET, questionFileName);
             return;
         }
 
-        question mountQuestion;
+        Question mountQuestion;
         char chainOfCharacters[CONF_QUESTION];
         int currentLine = 0;
 
@@ -169,41 +183,37 @@ void readQuestions(int totalNumberOfQuestions)
 
         if (askQuestion(questionNumer, &mountQuestion) == 1)
         {
-            printf("\nAcertou!!!");
+            printf(GRN "\nAcertou :)" RESET);
             gameScore.correctAnswers++;
         }
         else
         {
-            printf("\nResposta errada!\n%s", mountQuestion.explanation);
+            printf(RED "\nResposta errada!\n%s" RESET, mountQuestion.explanation);
             gameScore.incorrectAnswers++;
         }
 
         if(fclose(fileQuestion) != 0)
         {
-            printf("\n\nOcorreu um erro ao fechar o arquivo %s!", questionFileName);
+            printf(RED "\n\nOcorreu um erro ao fechar o arquivo %s!" RESET, questionFileName);
         }
 
-        if (questionNumer != totalNumberOfQuestions)
-        {
-            printf("\n\nPara ir para a próxima pergunta pressione ENTER\n");
-            fflush(stdin);
-            getchar();
-        }
+        if(nextQuestion())
+            continue;
     }
 
     finishGame(&gameScore);
 }
 
-int askQuestion(int questionIndex, question *questionToShow)
+int askQuestion(int questionIndex, Question *questionToShow)
 {
     char userResponse;
 
     system("cls");
-    printf("\n\nQUESTÃO %d: %s \n", questionIndex, questionToShow->question);
-    printf("A) %s \n", questionToShow->alternativeA);
-    printf("B) %s \n", questionToShow->alternativeB);
-    printf("C) %s \n", questionToShow->alternativeC);
-    printf("D) %s \n", questionToShow->alternativeD);
+    printf(CYN "\n\nQUESTÃO %d: " RESET "%s \n", questionIndex, questionToShow->question);
+    printf(CYN "A) " RESET "%s \n", questionToShow->alternativeA);
+    printf(CYN "B) " RESET "%s \n", questionToShow->alternativeB);
+    printf(CYN "C) " RESET "%s \n", questionToShow->alternativeC);
+    printf(CYN "D) " RESET "%s \n", questionToShow->alternativeD);
 
     printf("\nDigite a sua resposta: ");
     fflush(stdin);
@@ -227,6 +237,24 @@ void exitGame()
 {
     printf("\nAdeus :) \n\n");
     exit(0);
+}
+
+bool nextQuestion()
+{
+    char response;
+
+    printf("\n\nIr para a próxima pergunta: pressione ENTER");
+    printf("\nVoltar a tela inicial: pressione H\n");
+    fflush(stdin);
+    scanf("%c", &response);
+
+    if (response == 'h' || response == 'H')
+    {
+        showMenuInformation();
+        return false;
+    }
+
+    return true;
 }
 
 int getTotalNumberOfQuestions(char directoryName[CONF_FILE_NAME_CHARACTERS])
@@ -310,12 +338,15 @@ void getScore(char scoreFileName[CONF_FILE_NAME_CHARACTERS])
         return;
     }
 
-    printf("\n\nSeu score atual é de:\n%d respostas certas\n%d respostas incorretas\nTOTAL: %d pontos",
+    printf("\n\nSeu score atual é de:"
+           GRN "\n%d respostas certas" RESET
+           RED "\n%d respostas incorretas" RESET
+           MAG "\nTOTAL: %d pontos" RESET,
            currentGameScore.correctAnswers, currentGameScore.incorrectAnswers, currentGameScore.finalScore);
 
     if (currentGameScore.finalScore >= 90 )
     {
-        printf(" (você é fera!)");
+        printf(MAG " (você é fera!)" RESET);
     }
 
     printf("\n_________");
